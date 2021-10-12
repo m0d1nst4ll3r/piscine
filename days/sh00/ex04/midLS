@@ -1,1 +1,1 @@
-ls -t -m | tr -d ' '
+ls -1t | tr -s '\n' ',' | head -c -1
