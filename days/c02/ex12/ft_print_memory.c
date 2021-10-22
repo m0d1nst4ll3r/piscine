@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_print_memory.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/17 12:56:30 by rpohlen           #+#    #+#             */
+/*   Updated: 2021/10/21 17:43:44 by rpohlen          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <unistd.h>
 
 // Prints the char as its hexadecimal value
@@ -5,7 +17,7 @@
 void	ft_puthex(char h)
 {
 	if (h < 10)
-		h = h + '0'; 
+		h = h + '0';
 	else
 		h = h - 10 + 'a';
 	write(1, &h, 1);
@@ -28,6 +40,20 @@ void	ft_print_addr(void *addr)
 	write(1, ": ", 2);
 }
 
+// Prints a single byte or two spaces if we are over size
+void	ft_print_byte_hex(char byte, int i, int size)
+{
+	if (i >= size)
+		write(1, "  ", 2);
+	else
+	{
+		ft_puthex(((byte >> 4) & 0xf));
+		ft_puthex((byte & 0xf));
+	}
+	if (i % 2)
+		write(1, " ", 1);
+}
+
 // Prints bytes in two possible formats
 // If hex then bytes will be printed in hexadecimal
 // Else bytes will be printed in ascii
@@ -36,32 +62,22 @@ void	ft_print_bytes(void *addr, int size, char hex)
 	int		i;
 	char	*addrc;
 
-	i = 0;
+	i = -1;
 	addrc = (char *)addr;
-	while (i < size)
+	while (++i < 16)
 	{
 		if (hex)
-		{
-			ft_puthex(((addrc[i] >> 4) & 0xf));
-			ft_puthex((addrc[i] & 0xf));
-			if (i % 2)
-				write(1, " ", 1);
-
-		}
+			ft_print_byte_hex(addrc[i], i, size);
 		else
 		{
-			if (addrc[i] < 32)
-				write(1, ".", 1);
-			else
-				write(1, addrc + i, 1);
+			if (i < size)
+			{
+				if (addrc[i] < 32 || addrc[i] == 127)
+					write(1, ".", 1);
+				else
+					write(1, addrc + i, 1);
+			}
 		}
-		i++;
-	}
-	while (hex && i++ < 16)
-	{
-		write(1, "  ", 2);
-		if (i % 2)
-			write(1, " ", 1);
 	}
 }
 
@@ -69,13 +85,13 @@ void	*ft_print_memory(void *addr, int size)
 {
 	int	i;
 
-	if (! size)
+	if (size <= 0)
 		return (addr);
 	i = 0;
 	while (i <= size / 16)
 	{
 		if (i == size / 16 && size % 16 == 0)
-			break;
+			break ;
 		ft_print_addr(addr + i * 16);
 		if (i == size / 16)
 		{

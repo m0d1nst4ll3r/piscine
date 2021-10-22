@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strcat.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/17 12:53:56 by rpohlen           #+#    #+#             */
+/*   Updated: 2021/10/17 12:54:53 by rpohlen          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 int	ft_strlen(char *str)
 {
 	int	i;
@@ -17,7 +29,7 @@ char	*ft_strcat(char *dest, char *src)
 	destlen = ft_strlen(dest);
 	srclen = ft_strlen(src);
 	i = destlen;
-	while(i < srclen + destlen)
+	while (i < (srclen + destlen))
 	{
 		dest[i] = src[i - destlen];
 		i++;
