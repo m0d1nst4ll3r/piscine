@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   box_puzzle_main.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/23 13:59:15 by rpohlen           #+#    #+#             */
+/*   Updated: 2021/10/23 14:01:55 by rpohlen          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "box_puzzle.h"
 
 void	print_map(char **map, int size)
@@ -100,6 +112,7 @@ int	box_puzzle(int argc, char **argv)
 	int		size;
 	int		**input;
 	char	**map;
+	int		xy[2];
 
 	if (argc != 2)
 		return (0);
@@ -112,7 +125,9 @@ int	box_puzzle(int argc, char **argv)
 	map = create_map(size);
 	if (map == 0)
 		return (0);
-	if (box_recursive(input, map, size, 0, 0))
+	xy[0] = 0;
+	xy[1] = 0;
+	if (box_recursive(input, map, size, xy))
 		print_map(map, size);
 	else
 		return (0);
