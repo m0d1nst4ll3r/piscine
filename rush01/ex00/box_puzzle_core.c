@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/23 13:59:32 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/10/23 14:02:07 by rpohlen          ###   ########.fr       */
+/*   Updated: 2021/10/23 15:23:07 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	box_recursive(int **input, char **map, int size, int *xy)
 			if (xy[1] == size - 1 && xy[0] == size - 1)
 				return (1);
 			next[0] = xy[0];
-			next[1] = xy[1];
+			next[1] = xy[1] + 1;
 			if (xy[1] == size - 1)
 			{
 				next[1] = 0;
