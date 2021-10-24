@@ -6,23 +6,42 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/23 13:59:44 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/10/23 18:10:37 by rpohlen          ###   ########.fr       */
+/*   Updated: 2021/10/24 20:16:30 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/* -----------------------------------------------------------------------
+**
+**		backwards_check
+**	
+**	Checks for duplicates of a value, backwards,
+**	on the same line and column.
+**
+**		returns
+**
+**	- 1		if no duplicate was found
+**	- 0		otherwise
+**
+**		params
+**
+**	- map:		two dimensional array on which to check for duplicates
+**	- x:		x coordinate of the value we are checking
+**	- y:		y coordinate of the value we are checking
+**
+** -------------------------------------------------------------------- */
 int	backwards_check(char **map, int x, int y)
 {
 	int	i;
 
 	i = y - 1;
-	while (i >= 0) // line (right to left)
+	while (i >= 0)
 	{
 		if (map[x][y] == map[x][i])
 			return (0);
 		i--;
 	}
 	i = x - 1;
-	while (i >= 0) // column (bottom to top)
+	while (i >= 0)
 	{
 		if (map[x][y] == map[i][y])
 			return (0);
@@ -31,12 +50,29 @@ int	backwards_check(char **map, int x, int y)
 	return (1);
 }
 
-// order in which the input is written as an argument : "top bottom left right"
-// input[0]	->	top
-// input[1]	->	bottom
-// input[2]	->	left
-// input[3]	->	right
-int	line_left_check(int **input, char **map, int size, int num)
+/* -----------------------------------------------------------------------
+**
+**		line_left_check
+**	
+**	Calculates how many boxes we will see on a line,
+**	when looking at it from the left side.
+**	Then, checks that value against the value we were
+**	given in our input.
+**
+**		returns
+**
+**	- 1		if the values match
+**	- 0		otherwise
+**
+**		params
+**
+**	- map:		two dimensional array where the line is located
+**	- input:	value against which to check
+**	- size:		size of our two dimension array
+**	- num:		number of the line to check
+**
+** -------------------------------------------------------------------- */
+int	line_left_check(char **map, int input, int size, int num)
 {
 	int	i;
 	int	score;
@@ -44,22 +80,44 @@ int	line_left_check(int **input, char **map, int size, int num)
 
 	score = 1;
 	i = 1;
-	highest = map[num][0]; // map [LINE] [0], meaning, the leftmost box
-	while (i <= size - 1) // from 1 to size - 1
+	highest = map[num][0];
+	while (i <= size - 1)
 	{
 		if (highest < map[num][i])
 		{
 			highest = map[num][i];
-			score++; // increment score if we can see another box behind the highest we've come across so far
+			score++;
 		}
 		i++;
 	}
-	if (score != input[2][num]) // check against our input
+	if (score != input)
 		return (0);
 	return (1);
 }
 
-int	line_right_check(int **input, char **map, int size, int num)
+/* -----------------------------------------------------------------------
+**
+**		line_right_check
+**	
+**	Calculates how many boxes we will see on a line,
+**	when looking at it from the right side.
+**	Then, checks that value against the value we were
+**	given in our input.
+**
+**		returns
+**
+**	- 1		if the values match
+**	- 0		otherwise
+**
+**		params
+**
+**	- map:		two dimensional array where the line is located
+**	- input:	value against which to check
+**	- size:		size of our two dimension array
+**	- num:		number of the line to check
+**
+** -------------------------------------------------------------------- */
+int	line_right_check(char **map, int input, int size, int num)
 {
 	int	i;
 	int	score;
@@ -67,7 +125,7 @@ int	line_right_check(int **input, char **map, int size, int num)
 
 	score = 1;
 	i = size - 2;
-	highest = map[num][size - 1]; // rightmost box
+	highest = map[num][size - 1];
 	while (i >= 0)
 	{
 		if (highest < map[num][i])
@@ -77,12 +135,34 @@ int	line_right_check(int **input, char **map, int size, int num)
 		}
 		i--;
 	}
-	if (score != input[3][num])
+	if (score != input)
 		return (0);
 	return (1);
 }
 
-int	col_top_check(int **input, char **map, int size, int num)
+/* -----------------------------------------------------------------------
+**
+**		col_top_check
+**	
+**	Calculates how many boxes we will see on a column,
+**	when looking at it from the top.
+**	Then, checks that value against the value we were
+**	given in our input.
+**
+**		returns
+**
+**	- 1		if the values match
+**	- 0		otherwise
+**
+**		params
+**
+**	- map:		two dimensional array where the column is located
+**	- input:	value against which to check
+**	- size:		size of our two dimension array
+**	- num:		number of the column to check
+**
+** -------------------------------------------------------------------- */
+int	col_top_check(char **map, int input, int size, int num)
 {
 	int	i;
 	int	score;
@@ -90,7 +170,7 @@ int	col_top_check(int **input, char **map, int size, int num)
 
 	score = 1;
 	i = 1;
-	highest = map[0][num]; // top box
+	highest = map[0][num];
 	while (i <= size - 1)
 	{
 		if (highest < map[i][num])
@@ -100,12 +180,34 @@ int	col_top_check(int **input, char **map, int size, int num)
 		}
 		i++;
 	}
-	if (score != input[0][num])
+	if (score != input)
 		return (0);
 	return (1);
 }
 
-int	col_bot_check(int **input, char **map, int size, int num)
+/* -----------------------------------------------------------------------
+**
+**		col_bot_check
+**	
+**	Calculates how many boxes we will see on a column,
+**	when looking at it from the bottom.
+**	Then, checks that value against the value we were
+**	given in our input.
+**
+**		returns
+**
+**	- 1		if the values match
+**	- 0		otherwise
+**
+**		params
+**
+**	- map:		two dimensional array where the column is located
+**	- input:	value against which to check
+**	- size:		size of our two dimension array
+**	- num:		number of the column to check
+**
+** -------------------------------------------------------------------- */
+int	col_bot_check(char **map, int input, int size, int num)
 {
 	int	i;
 	int	score;
@@ -113,7 +215,7 @@ int	col_bot_check(int **input, char **map, int size, int num)
 
 	score = 1;
 	i = size - 2;
-	highest = map[size - 1][num]; // bottom box
+	highest = map[size - 1][num];
 	while (i >= 0)
 	{
 		if (highest < map[i][num])
@@ -123,7 +225,7 @@ int	col_bot_check(int **input, char **map, int size, int num)
 		}
 		i--;
 	}
-	if (score != input[1][num])
+	if (score != input)
 		return (0);
 	return (1);
 }

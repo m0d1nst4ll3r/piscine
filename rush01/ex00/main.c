@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/23 14:00:00 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/10/23 14:00:03 by rpohlen          ###   ########.fr       */
+/*   Updated: 2021/10/24 20:15:53 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	main(int argc, char **argv)
 {
-	if (box_puzzle(argc, argv) == 0)
+	if (argc != 2 || box_puzzle(argv[1]) == 0)
 	{
 		write(1, "Error\n", 6);
 		return (1);
