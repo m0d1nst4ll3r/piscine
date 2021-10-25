@@ -10,40 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_strnlen(char *str, int nb)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] && i < nb)
-		i++;
-	return (i);
-}
-
-int	ft_strlen(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
-
 char	*ft_strncat(char *dest, char *src, unsigned int nb)
 {
-	int	destlen;
-	int	srclen;
-	int	i;
+	unsigned int	i;
+	unsigned int	j;
 
-	destlen = ft_strlen(dest);
-	srclen = ft_strnlen(src, nb);
-	i = destlen;
-	while (i < (srclen + destlen))
-	{
-		dest[i] = src[i - destlen];
+	i = 0;
+	j = 0;
+	while (dest[i])
 		i++;
+	while (src[j] && j < nb)
+	{
+		dest[i + j] = src[j];
+		j++;
 	}
-	dest[i] = 0;
+	dest [i + j] = 0;
 	return (dest);
 }
