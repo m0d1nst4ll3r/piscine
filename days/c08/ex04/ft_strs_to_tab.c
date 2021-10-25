@@ -6,11 +6,12 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 19:26:35 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/10/25 19:49:00 by rpohlen          ###   ########.fr       */
+/*   Updated: 2021/10/25 20:00:21 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include "ft_stock_str.h"
 
 //	Allocates an array of [ac] structures
 //	Fills that array one by one by assigning to:
