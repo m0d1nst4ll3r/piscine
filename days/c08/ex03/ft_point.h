@@ -6,17 +6,17 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 18:46:40 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/10/25 19:23:04 by rpohlen          ###   ########.fr       */
+/*   Updated: 2021/10/25 19:48:39 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_POINT_H
 # define FT_POINT_H
 
-typedef struct	s_point
+typedef struct s_point
 {
 	int	x;
 	int	y;
-} t_point;
+}	t_point;
 
 #endif
