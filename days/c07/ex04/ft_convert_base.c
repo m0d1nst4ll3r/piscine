@@ -6,13 +6,19 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 13:54:07 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/10/22 14:39:08 by rpohlen          ###   ########.fr       */
+/*   Updated: 2021/10/25 16:25:06 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <stdlib.h>
 
 int	ft_check_base(char *base);
 int	ft_atoi_base(char *str, char *base);
 
+//	Returns number of digits of an int [nbr],
+//		if it were written in base [base]
+//	Takes into account negatives and adds 1 to the length
+//		for the minus character
 int	ft_getlen(int nbr, int base)
 {
 	int	len;
@@ -29,37 +35,36 @@ int	ft_getlen(int nbr, int base)
 		nbr /= base;
 		len++;
 	}
-	return (len + 1);
+	return (len + neg);
 }
 
-void	ft_itoa_base(char *fill, int n, char *base, int baselen, int i)
+//	Fills string [fill] with the int [n] converted in base [base]
+//		of length [baselen]
+//	Makes sure to add a '-' for negative numbers and 0 to end the string
+void	ft_itoa_base(char *fill, int n, char *base, int baselen)
 {
-	if (n < baselen)
-		fill[i] = base[n];
-	else
+	int	i;
+	int	neg;
+
+	i = ft_getlen(n, baselen);
+	fill[i] = 0;
+	neg = 1;
+	if (n < 0)
+		neg = -1;
+	while (i >= 0)
 	{
-		ft_itoa_base(fill, n / baselen, base, baselen, i - 1);
-		ft_itoa_base(fill, n % baselen, base, baselen, i - 1);
+		fill[i - 1] = base[(n * neg) % baselen];
+		n /= baselen;
+		i--;
 	}
+	if (neg == -1)
+		fill[0] = '-';
 }
 
-// Say we have 267
-
-// We want to write 2 in [0] 6 in [1] 7 in [2]
-
-// In a recursive func, we will call with	267				at 0 of depth
-// Then it will call itself with			26 and 7		at 1 of depth
-// Then call itself with					2 and 6			at 2 of depth
-
-// In a recursive func, we will call with	2673			at 0 of depth
-// Then it will call itself with			267 and 3		at 1 of depth
-// Then call itself with					2 and 6			at 2 of depth
-
-// We notice that the units are at 1 depth ... unless they're at 0 because we have a unit right away
-// The tenths 
-
-// This is tough.
-
+//	Converts the string into an int, first, by using atoi_base
+//	Allocates enough memory to fit the number in base [base_to],
+//		its negative sign, and a terminating 0
+//	Reconverts the string into the allocated new string by using itoa_base
 char	*ft_convert_base(char *nbr, char *base_from, char *base_to)
 {
 	int		baselen;
@@ -67,12 +72,12 @@ char	*ft_convert_base(char *nbr, char *base_from, char *base_to)
 	char	*cnvrt;
 
 	baselen = ft_check_base(base_to);
-	if (ft_check_base(base_from) <= 1 || len <= 1)
+	if (ft_check_base(base_from) <= 1 || baselen <= 1)
 		return (0);
 	num = ft_atoi_base(nbr, base_from);
 	cnvrt = malloc (sizeof(*cnvrt) * (ft_getlen(num, baselen) + 1));
 	if (cnvrt == 0)
 		return (0);
-	ft_itoa_base(cnvrt, num, base, baselen, baselen - 1);
+	ft_itoa_base(cnvrt, num, base_to, baselen);
 	return (cnvrt);
 }

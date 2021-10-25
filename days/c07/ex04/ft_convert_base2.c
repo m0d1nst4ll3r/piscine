@@ -6,14 +6,14 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 13:55:24 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/10/22 14:39:10 by rpohlen          ###   ########.fr       */
+/*   Updated: 2021/10/25 16:23:46 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // Checks if c is present in base str
 // If it is, will return its position
 // If it isn't, will return -1
-int ft_is_in_base(char c, char *base)
+int	ft_is_in_base(char c, char *base)
 {
 	int	i;
 
@@ -35,7 +35,7 @@ int ft_is_in_base(char c, char *base)
 // If string is not valid, it will return 0
 // If string is of length 1, it will return 1
 // If string is valid and length > 1, it will return length
-int ft_check_base(char *base)
+int	ft_check_base(char *base)
 {
 	int	i;
 	int	j;
@@ -64,7 +64,7 @@ int ft_check_base(char *base)
 	return (len);
 }
 
-int ft_atoi_base(char *str, char *base)
+int	ft_atoi_base(char *str, char *base)
 {
 	int	i;
 	int	neg;

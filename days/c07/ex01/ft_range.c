@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 18:21:32 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/10/22 13:22:01 by rpohlen          ###   ########.fr       */
+/*   Updated: 2021/10/25 14:10:52 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	*ft_range(int min, int max)
 
 	if (min >= max)
 		return (NULL);
-	itab = malloc(sizeof(*itab) * max - min);
+	itab = malloc(sizeof(*itab) * (max - min));
 	if (! itab)
 		return (NULL);
 	i = 0;

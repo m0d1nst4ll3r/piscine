@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>			+#+  +:+	   +#+		*/
 /*												+#+#+#+#+#+   +#+		   */
 /*   Created: 2021/10/20 18:36:31 by rpohlen		   #+#	#+#			 */
-/*   Updated: 2021/10/22 13:25:14 by rpohlen          ###   ########.fr       */
+/*   Updated: 2021/10/25 14:11:31 by rpohlen          ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	ft_ultimate_range(int **range, int min, int max)
 	if (! itab)
 	{
 		*range = NULL;
-		return (0);
+		return (-1);
 	}
 	i = 0;
 	while (i < len)

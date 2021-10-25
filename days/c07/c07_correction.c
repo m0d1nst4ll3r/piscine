@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 18:16:38 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/10/22 13:49:05 by rpohlen          ###   ########.fr       */
+/*   Updated: 2021/10/25 17:52:50 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,14 @@ char	*ft_strdup(char *src);
 int		*ft_range(int min, int max);
 int		ft_ultimate_range(int **range, int min, int max);
 char	*ft_strjoin(int size, char **strs, char *sep);
+char	*ft_convert_base(char *str, char *base_from, char *base_to);
+char	**ft_split(char *str, char *charset);
 
 int	main(int argc, char **argv)
 {
+	(void)argc;
+	(void)argv;
+
 	// ex00
 
 	/*printf("%s\n", strcmp(strdup("Test"), ft_strdup("Test")) == 0 ?
@@ -66,9 +71,25 @@ int	main(int argc, char **argv)
 
 	// ex03
 
-	printf("./a.out___said___this___is___a___success :\n");
-	printf("%s\n",  ft_strjoin(argc, argv, "___"));
+	//printf("./a.out___said___this___is___a___success :\n");
+	//printf("%s\n",  ft_strjoin(argc, argv, "___"));
 
 
 	// ex04
+
+	//printf("%s\n", ft_convert_base(argv[1],argv[2],argv[3]));
+
+
+	// ex05
+
+	/*char	**test;
+	int	i;
+
+	test = ft_split(argv[1],argv[2]);
+	i = 0;
+	while (test[i])
+	{
+		printf("%s\n", test[i]);
+		i++;
+	}*/
 }
