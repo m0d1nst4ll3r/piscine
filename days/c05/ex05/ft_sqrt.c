@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 12:16:25 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/10/21 19:27:51 by rpohlen          ###   ########.fr       */
+/*   Updated: 2021/10/25 15:39:47 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ int	ft_sqrt_recursive(int start, int end, int nb)
 
 int	ft_sqrt(int nb)
 {
-	if (nb < 2)
+	if (nb < 1)
 		return (0);
+	else if (nb == 1)
+		return (1);
 	return (ft_sqrt_recursive(0, nb, nb));
 }
