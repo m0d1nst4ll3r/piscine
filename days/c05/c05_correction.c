@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 09:38:36 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/10/22 13:08:19 by rpohlen          ###   ########.fr       */
+/*   Updated: 2021/10/26 17:18:53 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ int	main(int argc, char **argv)
 	printf("ex06 17 - %d (1)\n",ft_is_prime(76231));
 	printf("ex06 18 - %d (0)\n",ft_is_prime(76232));
 	printf("ex06 19 - %d (0)\n",ft_is_prime(100000000));*/
-	printf("ex06 19 - %d\n",ft_is_prime(atoi(argv[1])));
+	//printf("ex06 19 - %d\n",ft_is_prime(atoi(argv[1])));
 	/*printf("%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n",
 		ft_is_prime(-1) == 0 ? "OK" : "Fail",
 		ft_is_prime(-3) == 0 ? "OK" : "Fail",
@@ -166,5 +166,5 @@ int	main(int argc, char **argv)
 
 	// ex08
 
-	//printf("ex08 - %d\n",ft_ten_queens_puzzle()); // 724
+	printf("ex08 - %d\n",ft_ten_queens_puzzle()); // 724
 }

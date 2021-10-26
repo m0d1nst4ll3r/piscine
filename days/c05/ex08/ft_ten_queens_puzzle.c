@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 12:25:04 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/10/26 16:31:57 by rpohlen          ###   ########.fr       */
+/*   Updated: 2021/10/26 17:18:32 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,19 @@ int	ft_tenq_check(char *queens, int col)
 
 void	ft_tenq_rec(char *queens, int *res, int col)
 {
-	if (col == 10)
-	{
-		ft_tenq_print(queens);
-		*res = *res + 1;
-		return ;
-	}
 	queens[col] = 0;
 	while (queens[col] < 10)
 	{
 		if (ft_tenq_check(queens, col))
-			ft_tenq_rec(queens, res, col + 1);
+		{
+			if (col == 9)
+			{
+				ft_tenq_print(queens);
+				*res = *res + 1;
+			}
+			else
+				ft_tenq_rec(queens, res, col + 1);
+		}
 		queens[col]++;
 	}
 }
