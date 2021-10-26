@@ -1,34 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   c09_correction.c                                   :+:      :+:    :+:   */
+/*   ft_putchar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/26 14:36:59 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/10/26 17:45:42 by rpohlen          ###   ########.fr       */
+/*   Created: 2021/10/26 13:34:11 by rpohlen           #+#    #+#             */
+/*   Updated: 2021/10/26 18:34:37 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include "ft.h"
 
-void	ft_putchar(char c);
-void	ft_putstr(char *str);
-int		ft_strcmp(char *s1, char *s2);
-void	ft_swap(int *a, int *b);
-int		ft_strlen(char *str);
-
-int	main(int ac, char **av)
+void	ft_putchar(char c)
 {
-	(void)ac;
-	(void)av;
-
-	int	a = 0;
-	int	b = 42;
-
-	ft_swap(&a, &b);
-	ft_putchar('o');
-	ft_putstr("pen");
-
-	printf(", %d, %d, %d, %d\n", ft_strlen("Coucou"), ft_strcmp("eeeh", "eeeH"), a, b);
+	write(1, &c, 1);
 }
