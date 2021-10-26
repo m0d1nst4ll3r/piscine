@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 12:25:04 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/10/22 12:59:06 by rpohlen          ###   ########.fr       */
+/*   Updated: 2021/10/26 16:31:57 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ int	ft_tenq_check(char *queens, int col)
 	while (i > -1)
 	{
 		line = (queens[col] == queens[i]);
-		diagtop = (queens[col] == queens[i] + (col - i));
-		diagbot = (queens[col] == queens[i] - (col - i));
+		diagbot = (queens[col] == queens[i] + (col - i));
+		diagtop = (queens[col] == queens[i] - (col - i));
 		if (line || diagtop || diagbot)
 			return (0);
 		i--;
