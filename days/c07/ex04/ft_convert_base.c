@@ -6,11 +6,12 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 13:54:07 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/10/27 18:22:55 by rpohlen          ###   ########.fr       */
+/*   Updated: 2021/10/27 21:08:39 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <stdio.h>
 
 int	ft_check_base(char *base);
 int	ft_atoi_base(char *str, char *base);
@@ -51,11 +52,10 @@ void	ft_itoa_base(char *fill, long int n, char *base, int baselen)
 	neg = 1;
 	if (n < 0)
 		neg = -1;
-	while (i >= 0)
+	while (--i >= 0)
 	{
-		fill[i - 1] = base[(n * neg) % baselen];
+		fill[i] = base[(n * neg) % baselen];
 		n /= baselen;
-		i--;
 	}
 	if (neg == -1)
 		fill[0] = '-';
@@ -73,11 +73,12 @@ char	*ft_convert_base(char *nbr, char *base_from, char *base_to)
 
 	baselen = ft_check_base(base_to);
 	if (ft_check_base(base_from) <= 1 || baselen <= 1)
-		return (0);
+		return (NULL);
 	num = ft_atoi_base(nbr, base_from);
 	cnvrt = malloc (sizeof(*cnvrt) * (ft_getlen(num, baselen) + 1));
-	if (cnvrt == 0)
-		return (0);
+	//printf("[%d]\n", ft_getlen(num, baselen));
+	if (cnvrt == NULL)
+		return (NULL);
 	ft_itoa_base(cnvrt, num, base_to, baselen);
 	return (cnvrt);
 }
