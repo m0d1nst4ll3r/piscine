@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 18:16:38 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/10/25 17:52:50 by rpohlen          ###   ########.fr       */
+/*   Updated: 2021/10/27 15:32:48 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,9 @@ int	main(int argc, char **argv)
 
 	// ex03
 
-	//printf("./a.out___said___this___is___a___success :\n");
-	//printf("%s\n",  ft_strjoin(argc, argv, "___"));
+	printf("./a.out___said___this___is___a___success :\n");
+	printf("%s\n",  ft_strjoin(argc, argv, "___"));
+	printf("emptystring|%s|emptystring\n",  ft_strjoin(0, argv, "___"));
 
 
 	// ex04
