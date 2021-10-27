@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 19:05:40 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/10/27 15:29:36 by rpohlen          ###   ########.fr       */
+/*   Updated: 2021/10/27 18:27:37 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*ft_strjoin(int size, char **strs, char *sep)
 	if (size <= 0)
 	{
 		error = malloc(sizeof(char));
-		if (! error)
+		if (error == NULL)
 			return (NULL);
 		*error = 0;
 		return (error);
@@ -75,8 +75,9 @@ char	*ft_strjoin(int size, char **strs, char *sep)
 		totlen += ft_strlen(strs[i]);
 	totlen += ft_strlen(sep) * (size - 1);
 	join = malloc(sizeof(*join) * (totlen + 1));
-	if (! join)
+	if (join == NULL)
 		return (NULL);
+	*join = 0;
 	ft_strjoin_fill(size, strs, sep, join);
 	return (join);
 }

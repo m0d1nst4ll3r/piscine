@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 13:54:07 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/10/25 16:25:06 by rpohlen          ###   ########.fr       */
+/*   Updated: 2021/10/27 18:22:55 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_getlen(int nbr, int base)
 //	Fills string [fill] with the int [n] converted in base [base]
 //		of length [baselen]
 //	Makes sure to add a '-' for negative numbers and 0 to end the string
-void	ft_itoa_base(char *fill, int n, char *base, int baselen)
+void	ft_itoa_base(char *fill, long int n, char *base, int baselen)
 {
 	int	i;
 	int	neg;
