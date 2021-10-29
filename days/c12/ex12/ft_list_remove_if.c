@@ -18,7 +18,7 @@ void	ft_list_remove_if(t_list **begin_list, void *data_ref,
 	if (! begin_list || ! *begin_list)
 		return ;
 	elem = *begin_list;
-	while (elem->next)
+	while (elem && elem->next)
 	{
 		if (! ((*cmp)(elem->next->data, data_ref)))
 			elem->next = ft_list_remove(elem->next, free_fct);
