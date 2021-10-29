@@ -17,10 +17,6 @@ int	ft_do_op(int a, int b, char op)
 		return (a - b);
 	else if (op == '*')
 		return (a * b);
-	else if (b == 0 && op == '/')
-		ft_puterr("Stop : division by zero\n");
-	else if (b == 0 && op == '%')
-		ft_puterr("Stop : modulo by zero\n");
 	else if (op == '/')
 		return (a / b);
 	else if (op == '%')
@@ -53,6 +49,14 @@ int	main(int ac, char **av)
 	a = ft_atoi(av[1]);
 	b = ft_atoi(av[3]);
 	op = ft_curate_op(av[2]);
-	ft_putnbr(ft_do_op(a, b, op));
+	if (b == 0 && op == '/')
+		ft_puterr("Stop : division by zero\n");
+	else if (b == 0 && op == '%')
+		ft_puterr("Stop : modulo by zero\n");
+	else
+	{
+		ft_putnbr(ft_do_op(a, b, op));
+		write(1, "\n", 1);
+	}
 	return (0);
 }
