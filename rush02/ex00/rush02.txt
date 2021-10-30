@@ -1,0 +1,206 @@
+		RUSH02
+
+
+
+	The goal of this project is to make a program that takes in ANY positive number, of ANY size.
+	Meaning, the number can be bigger than a max unsigned int, or long int, or long long int.
+	And transform that number into a string of characters defining it, based on a dictionary it will have read.
+
+	The default dictionary they give us has one undecillion as its maximum value. This does not mean you need to stop at one undecillion.
+	The dictionary could be modified to define 10^85396304914 as a goofillion and your program should handle that. Even though an undecillion fits in a long long unsigned.
+	The first challenge becomes clear : the numbers you have to handle are bigger than can fit in your memory, in int form at least.
+
+	Another precision: the dictionary has to be valid. Validity means this order is respected on each line:
+	-	start of line
+	-	any number (same way as atoi handles them, meaning it can have "  \t \t   \t  5BWABWABWA: five\n"
+	-	any amount of spaces
+	-	a semicolon
+	-	any amount of spaces
+	-	any printable characters (including spaces which have to come after a non-space of course)
+	-	any amount of spaces you will ignore
+	-	a newline
+	Knowing that there can be empty lines anywhere in the dictionary and they should be ignored.
+	And the dictionary needs to have at least the keys as the reference one, meaning you can't have no description for, say, 6, or 12, or 50, or one undecillion.
+	Keep in mind the entries in the dictionary can be sorted in any order. It could start with undecillion and then have 50 and then 1 and then 1000.
+	If the dictionary is not valid according to this, you print "Dict Error\n".
+
+	The program can take one or two arguments: if only one, you'll use the default dictionary and treat the argument as a number.
+	If two, you'll treat the first argument as a dictionary (a file), and the second as a number.
+	The number needs to be treated like atoi would, meaning, only one + allowed. - is obviously not allowed since you need an unsigned. Spaces and tabs should be ignored, anything after the number too.
+	If the number is not valid, you print "Error\n".
+	If no argument is entered, you should read the standard entry.
+
+	Any memory you allocate must be freed no matter what.
+
+	Your program should only use the initial entries (?????????) meaning if you had 54: fifty-four, you should still use the 50 and 4 entries.
+	This is extremely counter-intuitive and begs the question why the dictionary can be modified if we won't use the modifications.
+	
+	Your program should recognize where to put the - and "and" by itself in numbers such as one thousand three hundred and fifty-four / one thousand and one...
+	They also say you should use ',' but... there's no ',' in any number, so it's confusing as fuck. Maybe they mean in the digits? Like, 12,345?
+
+
+
+
+
+
+		CUTTING UP THE PROBLEM
+
+
+
+	There are a couple challenges, if we cut up the problem:
+	-	First, we need to verify validity of the dictionary
+			-	Note that it is confusing how they tell us that "the dictionary WILL have the initial keys", as in, we need to refuse the dictionary if it has everything except undecillion?
+				Even if the number is lower than one undecillion?? Confusing.
+			-	numbers.dict should be the default dictionary, or the name inputted if ac == 3
+	-	Second, we need to save those values so that we can use them
+			-	Sort them in a structure that has two strings : number string, word string.
+				It might be smart to use chained lists, but you could double parse the dictionary to malloc the amount of values.
+	-	Third, (or second, rather) we need to check the validity of the number that was inputted
+			-	It seems that "10.4" is invalid, meaning you shouldn't atoi the number, you should rather treat is as only digits.
+			-	Spaces will break it, non-digit characters will break it, etc...
+			-	The dictionary should have enough entries to describe it. More below.
+	-	Fourth and last, we need to convert the number into words based on the dictionary.
+			-	This should obviously be done from left to right.
+
+
+
+	A few inconsistencies bother me.
+	-	The dictionary SHOULD have all the basic entries. But that's nonsense. If I have 54, I only need fifty, and four, to describe it. I don't need undecillion for that.
+			In fact, I don't need undecillion for anything lower than undecillion (a whole lot of numbers).
+	-	The dictionary should have enough entries to describe the number. What does that mean?
+			Say I have 1,000,000. I have one million, but I ignore the last nonsensical rule, and don't have one million in my dictionary. Error? No. This is also one thousand thousand.
+			Think about it, one billion is one thousand million. One trillion is one million million.
+			Hell, if I don't have forty, but I have to describe 40, well, I can say two twenty. The French language does that for 80 after all.
+	-	We should use 50 and 4 before 54. That's all fine and dandy, but we're using 13 before 10 and 3. We could have described an elegant rule that understands by itself that
+			10 and 3 are composites of 13 and as such, you should use the biggest one if it has a description, but now with this rule they give us of 54, 50, and 4, they fuck us in the arse.
+			Elegant rule goes in the toilet. Makes no sense.
+			Note that they say: you only NEED to use initial entries. Ok, what if I want to do it differently, can I? Are you saying "if you don't want to do it, you don't have to"?
+			Or "you HAVE to do it like this"?
+	-	What if there's more than one line with the same number, or word? If the word for everything is 'lol', do you translate 2546 into : lol lol lol lol and lol-lol?
+			What if two lines define the same number? What if you have 50:fifty somewhere and 50:weeee somewhere else? Which one do you use, if any? Dict Error?
+	-	What if we find, in the dictionary, a negative number? What do we do with it? Do we just ignore it and keep going, or do we exit with Dict Error?
+			Or, do we ignore the - character and treat the number as its positive value?
+
+
+
+		HOW TO DO
+
+
+
+	The main function will have to handle these tasks, in that order:
+	1)	Verify the dictionary
+		-	Has every default value
+		-	Has valid format for every line
+	2)	Format the dictionary
+		-	In a sorted table of structures
+	3)	Verify the input
+		-	Has valid format
+		-	Against the table of structures
+	4)	Format the input
+		-	As a string
+	5)	Convert
+	6)	Free everything (always runs, even if something failed)
+
+	(the program should free everything if any step fails:
+		if step 1 fails, there's nothing to free
+		if step 2 fails, there's the table of structures
+		if step 3 fails, table of structures
+		if step 4 fails, input string and table of structures
+		step 5 can't fail)
+
+
+	Description of each step:
+
+			Verifying the dictionary:
+
+	-	Open the file, if it fails, exit with Dict Error
+	-	Start parsing the file until it ends, checking each line for the pattern... read below
+
+	Biggest challenge, reading the dictionary, checking it, and converting it...
+
+	The biggest difficulty in this program is that you have to read the dictionary.
+	Unfortunately, you can't read it completely in one go. You can't have it all in one contiguous array, or not right away, in any case.
+
+	You could place all of it in memory and then read that. You could parse it once to get the total size, then malloc a string,
+	parse it again, and place every character you find in your array, in order.
+	You could, to make things easier for you, put every line in a string of its own, but you'd have to do several parses for this.
+	First, you'd need to get the amount of lines, by parsing the file once.
+	You'd malloc an array of strings of this amount of lines.
+	Then, you'd parse the file a second time to get the amount of characters per line (in a while, incrementing an int until you find a newline, mallocing, and resetting the int)
+	Then, a THIRD time to fill your strings.
+	In other words, very slow and inefficient, but a way to do it.
+	
+	It would be better to check line validity directly from reading the file.
+	The problem is, you don't know if a line will fit in your buffer. Even if your buffer is 30 kilobytes in size, it's possible that a line will be valid,
+	AND have 33 thousand characters in it. Since you can have infinite spaces.
+	You could use a while there's something to read, then... but what do you put in it?
+	You COULD use a step value. There are, after all, steps to it.
+	Step would start at 0.
+	At 0, you wait until you find anything. If you find something, you're switching to step 1.
+	At 1, you parse anything
+		(you are parsing the number, and the number has to be handled like atoi, so you can have literally ANYTHING and it COULD be valid)
+		(meaning you can have "50" and it's valid, but also " \t \t 50AEAEAEBWABWA\xff\xf4\x01\x02" and it's valid too,)
+		(but so would be " AWEHA WEO AW EJAW EZSE W E\x02\x05" or simply "" which would signify 0 as atoi would return to you)
+		(note that there can be nothing before the colon and it could be valid)
+	Until you happen upon a colon, in which case you know you're switching to step 2
+	At 2, you parse spaces (spaces ONLY), these are the spaces before the word
+		(again note that there can be nothing before the first non-space printable character and that's okay)
+	Until you happen upon a non-space printable character, in which case you know you're switching to step 3
+	At 3, you wait for a newline or end of file, since you already know your line is good.
+		BUT if you find a non-space non-printable character at Step 3, you exit with a Dict Error.
+	If you happen upon a newline or end of file at step 1 or 2, you're exiting with a Dict Error.
+	Since it would mean that you either didn't find any colon (Step 1),
+	or that you didn't find any non-space printable characters (Step 2),
+	or that you found a non-space, non-printable character somewhere after the colon and before the word
+	If you happen upon a newline or end of file at step 0 or 3, you're resetting step to 0.
+	Since it means either the line is completely empty, or has anything before a colon before any amount of spaces before any amount of printable characters before the newline.
+
+	If you parsed the entire thing without any error, you're good... at least, when it comes to line format.
+	This is a way to do it without mallocing anything.
+
+	But then, you have to actually convert the dictionary into a structure of 2 strings (we will use this later).
+	That means you have to reparse, and this time around, actually convert and malloc two strings.
+
+	To do this, you need the amount of things you'll have to convert, meaning the amount of non-empty lines you just parsed times 2.
+	That means you should have used a variable to increment, and will malloc that variable + 1.
+
+	You then need to parse a second time, like this :
+	Start a counter at 0
+	0.num will hold the number in ascii form
+	0.word will hold the word describing it
+	The first big problem is that your number might be huge, maybe even more massive than your buffer (even if your buffer is 30KB long).
+	And you can't know how much to malloc before parsing to the end.
+	Unfortunately, you can't use the lseek function so you can't go backwards.
+	So, a solution (granted, a weird one) is to intialize your entire structure to 0 after you malloc it.
+	And then, parse ONCE, and store the amount of bytes you will have to store in the address.
+	And parse a second time but this time, mallocing the amount stored in the address.
+
+	For this, you'll have to, during the first parse, count the correct amount of bytes.
+	For numbers, there are three steps to it:
+	First, ignore spaces and tabs
+	Second, 
+
+
+
+		PARSE STEPS
+
+	0)	Wait for any non newline character (used for empty newlines)
+	1)	Parse spaces and tabs, ignoring them
+	2)	Parse ONE + maximum, ignoring it
+	3)	Parse numbers between 0 and 9
+	4)	Parse spaces and tabs, ignoring them
+	5)	Parse ONE : maximum, ignoring it
+	6)	Parse spaces and tabs, ignoring them
+	7)	Parse printable characters (including spaces and tabs)
+	7b)	Spaces and tabs after words don't need to be parsed since they are already printable but will need to be ignored later.
+
+
+
+
+
+
+
+
+
+
+
