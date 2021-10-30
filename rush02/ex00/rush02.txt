@@ -182,17 +182,78 @@
 
 
 
+		NEW PLAN
+
+
+	1) Check validity
+		I decided that - and + are not valid. Only spaces and tabs. I decided that no digit is invalid, not 0.
+			when more than one of the same numbers are declared, the dictionary will be considered invalid.
+			I will completely ignore numbers such as 42 45 78 because I can already write them. These lines will be ok but ignored.
+			if anything is not a digit before the colon, the line will not be valid. It has to be a clean number.
+			I will handle extra zeroes before my number. 00020 will be 20.
+			the words will end, not at a newline, but at the last printable non-space character
+	2) Dic format
+		We will work with 4 arrays. One will be units, one will be tenths, one will be between 11 and 19, one will be thousandths.
+		We will allocate and initiate these arrays to 0.
+		We will then allocate each table according to the number we find.
+		We'll skip 0s until the first non zero. If the first non-zero is not a digit, we'll consider that we have 0.
+		We'll skip spaces and tabs before and after the word but not inside. They're null terminated, of course.
+	3) Arg validity
+		A valid number is any amount of spaces or tabs followed by at least one digit (no + or -) followed by spaces or tabs
+		no digit = not valid
+		any non digit non space non tab character found = not valid
+		0s preceding the number are ok
+		null terminated
+	4) Arg format
+		A simple string, formatted correctly (extra zeroes removed)
+	5) Fun
+		Once the Dic is valid and the arg is formatted, we can convert our number
+
+
+		ACTUAL HOW TO DO
+
+	1) Check validity
+
+	Check if the file exists and opens correctly, and is not a dir, if not, dic error.
+	Once open, read it in a simple while.
+	Use a step variable. Starts at 0.
+	
+
 		PARSE STEPS
 
-	0)	Wait for any non newline character (used for empty newlines)
+	0)	
 	1)	Parse spaces and tabs, ignoring them
-	2)	Parse ONE + maximum, ignoring it
-	3)	Parse numbers between 0 and 9
-	4)	Parse spaces and tabs, ignoring them
-	5)	Parse ONE : maximum, ignoring it
-	6)	Parse spaces and tabs, ignoring them
-	7)	Parse printable characters (including spaces and tabs)
+	2)	Parse numbers between 0 and 9
+	3)	Parse spaces and tabs, ignoring them
+	4)	Parse ONE : maximum, ignoring it
+	5)	Parse spaces and tabs, ignoring them
+	6)	Parse printable characters (including spaces and tabs)
 	7b)	Spaces and tabs after words don't need to be parsed since they are already printable but will need to be ignored later.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
