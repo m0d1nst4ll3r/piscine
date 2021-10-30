@@ -6,7 +6,6 @@ Not started :
 Not finished :
 - sh01
 - c10
-- c12
 
 Finished but not pushed :
 - sh00
@@ -24,5 +23,4 @@ Incoming and not started :
 
 
 Currently working on :
-- c13
 - rush02
