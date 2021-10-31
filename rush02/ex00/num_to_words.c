@@ -13,6 +13,46 @@
 #include "num_to_words.h"
 
 /* -----------------------------------------------------------------------
+**		ntw_translate
+**
+**	This function initializes all the values which will be used
+**		in all the translating functions
+**	It then begins parsing each digit, calling ntw_translate_digit
+**		for each iteration, checking the return value and updating
+**		t_val values as needed
+**
+**		params
+**
+**	- list:		the formatted dictionary as a list of key/word pairs
+**	- num:		the number to display as a string
+**	- func:		the function we will use to display words
+**				will either be a regular pustr
+**				or an empty function which prevents anything from
+**				being displayed
+**				this is used to mute the function during the first
+**				dictionary-checking parse
+** -------------------------------------------------------------------- */
+int	ntw_translate(t_pair *list, char *num, void(*func)(char *))
+{
+	t_val	val;
+
+	val.i = 0;
+	val.sep = 0;
+	val.spec = 0;
+	val.thou = 0;
+	val.len = ntw_strlen(num);
+	while (val.i < val.len)
+	{
+		val.pos = val.len - val.i;
+		if (ntw_translate_digit(list, num, &val, func))
+			return (1);
+		val.i++;
+	}
+	(*func)("\n");
+	return (0);
+}
+
+/* -----------------------------------------------------------------------
 **		num_to_words
 **
 **	In order, this function will:
@@ -20,7 +60,7 @@
 **		2) Check the validity of the argument
 **		3) Format said dictionary into a chained list
 **		4) Format the argument into a clean string
-**		5) TODO: Check whether our dictionary is sufficient
+**		5) Check whether our dictionary is sufficient
 **			to display our number
 **		6) Display our number
 **		7) Free the allocated list completely
@@ -48,8 +88,11 @@ int	num_to_words(char *arg, char *dic)
 	if (! list)
 		return (1);
 	num = ntw_format_arg(arg);
-	ntw_translate(list, num);
+	if (ntw_translate(list, num, &ntw_mute))
+		return (1);
+	ntw_translate(list, num, &ntw_putstr);
 	ntw_free_list(list);
+	free(num);
 	return (0);
 }
 

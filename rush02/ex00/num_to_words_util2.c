@@ -37,3 +37,15 @@ int	ntw_strlen(char *str)
 		i++;
 	return (i);
 }
+
+/* -----------------------------------------------------------------------
+**		ntw_mute
+**
+**	Since this function does nothing, we will use it as an argument
+**		to our main translating function so that it can run once
+**		without printing anything to detect potential errors.
+** -------------------------------------------------------------------- */
+void	ntw_mute(char *str)
+{
+	(void)str;
+}

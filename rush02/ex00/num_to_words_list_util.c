@@ -93,20 +93,24 @@ void	ntw_free_list(t_pair *begin)
 **
 **	- list:		list in which to seek the key
 **	- key:		key to seek in the list
-**	- TODO: func:		function which will be used on the word
+**	- func:		function which will be used on the word
 **				this is used to mute printing, to parse the number once
 **				and detect any errors before printing anything
 **
-**		TODO: returns
+**		returns
 **
 **	- 1			if the element wasn't found
 **	- 0			otherwise
 ** -------------------------------------------------------------------- */
-void	ntw_translate_print(t_pair *list, char key)
+int	ntw_translate_print(t_pair *list, char key, void(*func)(char *))
 {
 	t_pair	*elem;
 
 	elem = ntw_seek_elem(list, key);
 	if (elem)
-		ntw_putstr(elem->word);
+	{
+		(*func)(elem->word);
+		return (0);
+	}
+	return (1);
 }
