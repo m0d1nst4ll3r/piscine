@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_tail_list.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/01 16:45:55 by rpohlen           #+#    #+#             */
+/*   Updated: 2021/11/01 16:48:57 by rpohlen          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_tail.h"
 
 static t_byte	*create_elem(char byte)
@@ -37,12 +49,12 @@ void	insert_back(t_byte **begin, char byte)
 void	remove_front(t_byte **begin)
 {
 	t_byte	*first;
+
 	if (! begin || ! *begin)
 		return ;
 	first = *begin;
 	*begin = first->next;
 	free(first);
-	
 }
 
 int	list_size(t_byte *list)

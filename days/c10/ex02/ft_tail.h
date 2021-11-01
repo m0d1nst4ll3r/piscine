@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_tail.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/01 16:46:06 by rpohlen           #+#    #+#             */
+/*   Updated: 2021/11/01 16:46:08 by rpohlen          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FT_TAIL_H
 # define FT_TAIL_H
 
@@ -6,11 +18,11 @@
 # define ERR_INVALID_ARG 2
 # define ERR_CANT_OPEN 3
 
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <errno.h>
-#include <string.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <fcntl.h>
+# include <errno.h>
+# include <string.h>
 
 typedef struct s_byte
 {
