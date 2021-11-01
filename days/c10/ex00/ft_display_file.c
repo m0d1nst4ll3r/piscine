@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 20:31:29 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/10/27 11:53:39 by rpohlen          ###   ########.fr       */
+/*   Updated: 2021/10/31 21:14:11 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,21 @@
 
 void	ft_putstr(char *str, int size)
 {
-	while (size)
-	{
+	while (size--)
 		write(1, str++, 1);
-		size--;
+}
+
+int		ft_open(char *name)
+{
+	int	fd;
+
+	fd = open(name, O_RDONLY | O_DIRECTORY);
+	if (fd == -1)
+		return (open (name, O_RDONLY));
+	else
+	{
+		close(fd);
+		return (-1);
 	}
 }
 
@@ -34,7 +45,7 @@ int	main(int ac, char **av)
 		write(2, "Too many arguments.\n", 20);
 	else
 	{
-		fd = open(av[1], O_RDONLY);
+		fd = ft_open(av[1]);
 		if (fd == -1)
 			write(2, "Cannot read file.\n", 18);
 		else

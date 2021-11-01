@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 20:31:29 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/10/27 21:24:17 by rpohlen          ###   ########.fr       */
+/*   Updated: 2021/10/31 21:33:24 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,20 @@
 #include <string.h>
 #include <libgen.h>
 
-void	ft_putstr(char *str, int )
+void	ft_putstr(char *str, int chan)
 {
 	while (*str)
-		write(1, str++, 1);
+		write(chan, str++, 1);
 }
 
 int		ft_puterr(char *name, char *file, int err)
 {
-	ft_putstr(name);
-	ft_putstr(": ");
-	ft_putstr(file);
-	ft_putstr(": ");
-	ft_putstr(strerror(err));
-	ft_putstr("\n");
+	ft_putstr(name, 2);
+	ft_putstr(": ", 2);
+	ft_putstr(file, 2);
+	ft_putstr(": ", 2);
+	ft_putstr(strerror(err), 2);
+	ft_putstr("\n", 2);
 	return (err);
 }
 
@@ -47,7 +47,7 @@ int	ft_open(char *name)
 	{
 		fd = open(name, O_RDONLY | O_DIRECTORY);
 		if (fd == -1)
-			fd = open(name, O_RDONLY);
+			return (open(name, O_RDONLY));
 		else
 		{
 			close(fd);
@@ -57,7 +57,6 @@ int	ft_open(char *name)
 	}
 	else
 		return (STDIN_FILENO);
-	return (fd);
 }
 
 int	read_file(char *name)
@@ -67,10 +66,9 @@ int	read_file(char *name)
 	char	buf[4096];
 	char	*buft;
 
-	if ((fd = ft_open(name) == -1))
-		return (1);
+	fd = ft_open(name);
 	if (fd == -1)
-		return (errno);
+		return (1);
 	size = read(fd, buf, 4096);
 	while (size)
 	{
