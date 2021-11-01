@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 20:31:29 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/10/31 21:33:24 by rpohlen          ###   ########.fr       */
+/*   Updated: 2021/11/01 16:44:28 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_putstr(char *str, int chan)
 		write(chan, str++, 1);
 }
 
-int		ft_puterr(char *name, char *file, int err)
+int	ft_puterr(char *name, char *file, int err)
 {
 	ft_putstr(name, 2);
 	ft_putstr(": ", 2);

@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 20:31:29 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/10/31 21:14:11 by rpohlen          ###   ########.fr       */
+/*   Updated: 2021/11/01 16:42:25 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_putstr(char *str, int size)
 		write(1, str++, 1);
 }
 
-int		ft_open(char *name)
+int	ft_open(char *name)
 {
 	int	fd;
 
