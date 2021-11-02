@@ -1,0 +1,72 @@
+		BSQ STEPS
+
+	1.	Check that your file is ok
+	2.	Fill your data : map, maxline, maxcol, 3 chars
+		(we'll do 1 and 2 simultaneously)
+	3.	Solve
+	4.	Print solution
+	5.	
+
+
+
+
+		FUNCTIONS
+
+	-	Main init function to read from stdin if no arg, or read each arg one by one if there are
+	-	A function to open a file, outputs an error if it can't, returns fd
+	-	The function that handles args and opens, reads and then solves maps one by one
+	-	The function to check the file validity : we will fill the structure with everything and allocate everything WHILE reading and checking
+		-	Possible to use a steps system. (can use an array of pointers to functions to handle each step)
+			Step 0 - any 0 digit, skipping
+			Step 0.5 - one non-0 digit or else we'll have 0 lines, reallocing it
+			Step 0.6 - any digit, reallocing it
+			Step 1 - one printable, stop reallocing, atoi it, store it, all
+			Step 2 - one OTHER printable
+			Step 3 - one OTHER printable, put those 3 into the struct
+			Step 4 - a newline, instantly, allocating the 1st dimension of the array
+			Step 5 - any (1+) of the 3 characters, incrementing a col variable which we'll use later - start reallocing those on the 1st index of our 2d array
+			Step 6 - a newline, incrementing a line variable, checking against the atoi'd number, resetting the (temp) col counter, reallocing the 1st dimension of the array - IF THE # OF LINES IS EQUAL, STOP READING
+			Step 7 - any of the 3 characters - increment a col counter
+			Step 8 - a newline, checking against the col variable we've saved, the atoi'd number, reallocing, resetting col - IF THE # OF LINES IS EQUAL, STOP READING
+			-> go back to 7
+		-	Any of those functions can return 0 if successful, 1 if something failed. In case of failure, the parsing will stop, the freeing function called, and we'll output an error and move on to the next file.
+	-	A function to free everything which will be called in case of a failure or success
+		-	The only thing to free, really, is the 2d array
+	-	Use the 2d array we've created to get a solution
+		-	Parse from left to right, top to bottom, trying to draw the biggest square
+			Limits itself to line and col within the bounds of a solution that would exceed the one we already found, if we have
+			Uses the struct to store solutions
+		-	If the square is the num of lines or col, stop, success
+		-	Will check the box it's on first, then increment, check y + 1, x + 1, xy +1, increment check y + 2, y2x1, y2x2, y1x2, x2, increment, y3, y3yx1, y3x2, y3x3, y2x3, y1x3, x3, etc...
+			In other words, size actually being size - 1 (square of 3x3, size would be 2), y + size and x + i from 0 to size, then x + size and y + i from 0 to size - 1
+		-	When an obstacle is reached, stop, compare to saved size, if current size > saved, saved it, move to next pos (again, limiting to col - size, line - size)
+	-	Print the solution using the 2d map and our coordinates
+		Map will be null terminated in both dimensions
+	-	Util functions like realloc - realloc will end an array with 0 for strings, and also with 0 for addresses. Strings instantly take
+
+		=====>	That's pretty much it, really. Either stdin or files. Open. Read with step system and func array. Update the struct as we go and check everything.
+		=====>	Any error will interrupt reading and go to next file. When we get to the end, solve. Output the solution. Free the map. Do this for each file.
+
+
+
+		PROG ARCH
+
+	-	Structure with everything :
+		-	2d map array (char **)
+		-	line, col (2 ints)
+		-	empty, obstacle, filled (3 chars)
+		-	x, y, size of solution (0 at first) (3 ints)
+		-?	line, col, temp variables (unlike the 2 above) to count while reading and check against the 2 above
+
+	-	Array of function pointers according to our steps
+		Each function will handle its appropriate step. It will be at the index of the step. Step will be an int we increment, and we'll use it as our index to seek the appropriate func.
+		Each function will take a byte, and the struct's address as its arguments.
+???	-	Not sure where to put the func array...
+
+	-	bsq_step.c bsq_step2.c etc...	with step functions (1 for each step)
+		bsq_util.c						with utility (open, realloc)
+		bsq_core.c						with main solving func and main reading / filling / checking func
+		bsq_solve.c						all the solve funcs
+		bsq_main.c						the main
+		bsq.h							defs (bufsize, error msg), includes, protos, struct
+???	-									Possible to have a DEBUG define, 0 or 1, with if (DEBUG) lines that print values if we can spare the space.
