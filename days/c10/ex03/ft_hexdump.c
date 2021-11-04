@@ -6,80 +6,73 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 16:41:50 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/11/01 23:16:46 by rpohlen          ###   ########.fr       */
+/*   Updated: 2021/11/04 21:35:43 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_hexdump.h"
 
-void	hd_print(char *bytes, int pos, int canon)
+static int	hd_read(t_fileinfo *data)
 {
-	if (pos > 0 && hd_strlen(bytes + pos) > 15
-		&& hd_strncmp(bytes + pos, ))
-	hd_print_mem()
-}
-
-int	hd_read(char *file, int *pos, char **bytes, int canon)
-{
-	int		fd;
 	int		size;
 	int		i;
 	char	buf[BUFSIZE];
 
-	fd = hd_open(file);
-	if (fd == -1)
-		return (1);
-	size = read(fd, buf, BUFSIZE);
+	size = 1;
 	while (size)
 	{
+		size = read(data->fd, buf, BUFSIZE);
 		i = -1;
 		while (++i < size)
-			*bytes = hd_realloc(*bytes, buf[i]);
-		while (hd_strlen(*bytes, pos, canon) >= 16)
 		{
-			hd_print(*bytes, pos, canon)
-			pos += 16;
+			data->buf = hd_realloc(data->buf, buf[i], data->buflen);
+			if (! data->buf)
+				return (1);
+			data->buflen++;
 		}
-		size = read(fd, buf, BUFSIZE);
+		while (data->buf && data->buflen - data->pos >= 16)
+		{
+			hd_print(data);
+			data->pos += 16;
+		}
 	}
 	return (0);
 }
 
-int	hexdump(char *file, int ac, int argnum, int canon)
+static void	end_file(t_fileinfo *data)
 {
-	int		pos;
-	char	*bytes;
-
-	pos = 0;
-	bytes = 0;
-	if (hd_read(file))
-		hd_err(ERR_CANT_OPEN);
-	hd_read(file, &pos, &bytes, canon);
-	if (argnum < ac)
-		hd_print(bytes, pos, canon);
+	if (data->buflen - data->pos)
+	{
+		hd_print(data);
+		data->pos = data->buflen;
+	}
+	hd_print_mem(data->pos, data->canon);
+	ft_putchar('\n');
 }
 
 int	main(int ac, char **av)
 {
-	int		i;
-	int		canon;
+	t_fileinfo	data;
 
-	canon = 0;
-	i = 1;
-	if (ac == 1)
-		hexdump(0, 0, 0, canon);
-	if (hd_strmcp(av[1],"-C"))
+	init_data(&data, ac);
+	if (data.ac == 1)
+		hd_read(&data);
+	else if (! hd_strcmp(av[1], "-C"))
 	{
-		canon = 1;
-		i = 2;
+		data.canon = 1;
+		data.argnum = 2;
 		if (ac == 2)
-			hexdump(0, 0, 0, canon);
+			hd_read(&data);
 	}
-	while (i < ac)
+	while (data.argnum < data.ac)
 	{
-		if (hexdump(av[i], ac, argnum, canon))
-			hd_err(ERR_CANT_OPEN, av[0], av[i]);
-		i++;
+		data.fd = hd_open(av[data.argnum]);
+		if (data.fd == -1 || hd_read(&data))
+			hd_err(ERR_CANT_OPEN, av[0], av[data.argnum]);
+		close(data.fd);
+		data.argnum++;
 	}
+	if (data.buf)
+		end_file(&data);
 	return (0);
 }

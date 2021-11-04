@@ -6,27 +6,25 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 16:41:29 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/11/01 23:16:56 by rpohlen          ###   ########.fr       */
+/*   Updated: 2021/11/04 21:36:15 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_hexdump.h"
 
-char	*hd_realloc(char *old, char byte)
+char	*hd_realloc(char *old, char byte, int len)
 {
 	char	*new;
 	int		i;
 
 	i = 0;
-	if (! old)
-		new = malloc(sizeof(*new) * 2);
-	else
+	new = malloc(sizeof(*new) * (len + 2));
+	if (! new)
+		return (new);
+	if (old)
 	{
-		while (old[i])
-			i++;
-		new = malloc(sizeof(*new) * (i + 2));
 		i = -1;
-		while (old[++i])
+		while (++i < len)
 			new[i] = old[i];
 		free(old);
 	}
@@ -59,7 +57,7 @@ int	hd_strlen(char *str)
 	i = 0;
 	while (str[i])
 		i++;
-	return (i)
+	return (i);
 }
 
 int	hd_strcmp(char *s1, char *s2)
@@ -72,12 +70,12 @@ int	hd_strcmp(char *s1, char *s2)
 	return (*s1 - *s2);
 }
 
-int	hd_strcmp(char *s1, char *s2, int n)
+int	hd_strncmp(char *s1, char *s2, int n)
 {
 	int	i;
 
 	i = 0;
-	while (s1[i] && s2[i] && s1[i] == s2[i] && i < n - 1)
+	while (s1[i] == s2[i] && i < n - 1)
 		i++;
 	return (s1[i] - s2[i]);
 }
